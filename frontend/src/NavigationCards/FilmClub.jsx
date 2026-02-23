@@ -25,7 +25,7 @@ const FilmClubUI = () => {
       slug: "cine-samvad",
     },
     {
-      title: "Cine Activites",
+      title: "Cine Activities",
       description:
         "Engage in detailed movie discussions with presentations, embedded clips, and interactive worksheets.",
       icon: <RiMovie2Line className="text-white text-3xl" />,

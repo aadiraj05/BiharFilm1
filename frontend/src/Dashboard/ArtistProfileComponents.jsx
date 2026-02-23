@@ -654,7 +654,7 @@ export const SocialMediaCard = ({ artist, onUpdate, readOnly = false }) => {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm sticky top-24 relative group">
+    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm top-24 relative group">
       {!readOnly && (
         <button
           onClick={() => setIsEditing(true)}
