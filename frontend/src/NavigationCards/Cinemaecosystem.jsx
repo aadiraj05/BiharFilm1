@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Longcards from "../Cards/Longcards";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import ProductionAssets from "../Cards/ProductionAssets";
 import LocalArtist from "../Cards/LocalArtist";
 import LocalTechnicians from "../Cards/LocalTechnicians";
-import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../App.css";
 
 function Cinemaecosystem() {
+  const { t } = useTranslation();
   const [activePopup, setActivePopup] = useState(null);
-  const location = useLocation();
-  const hasProcessedStateRef = useRef(false);
 
   // Prevent background scroll when modal is open
   useEffect(() => {
@@ -23,33 +22,12 @@ function Cinemaecosystem() {
     return () => document.body.classList.remove("overflow-hidden");
   }, [activePopup]);
 
-  // Handle popup from route state (from navbar navigation)
-  useEffect(() => {
-    const openPopup = location && location.state && location.state.openPopup;
-    if (openPopup && !hasProcessedStateRef.current) {
-      // wait briefly so any scrolling triggered by the Home component can finish
-      const timer = setTimeout(() => {
-        setActivePopup(openPopup);
-      }, 300);
-
-      hasProcessedStateRef.current = true;
-
-      // Clear the navigation state so it doesn't persist on refresh
-      try {
-        window.history.replaceState(null, document.title, window.location.pathname);
-      } catch (e) {}
-
-      return () => clearTimeout(timer);
-    }
-  }, [location]);
-
   const handleCardClick = (popupType) => {
     setActivePopup(popupType);
   };
 
   const handleClose = () => {
     setActivePopup(null);
-    hasProcessedStateRef.current = false;
   };
 
   // Close modal when clicking outside
@@ -82,12 +60,10 @@ function Cinemaecosystem() {
       {/* ===== Heading and Description ===== */}
       <div className="text-center text-white max-w-3xl mx-auto">
         <h2 className="text-3xl md:text-7xl tapestry-regular mb-4">
-          Cinema Ecosystem
+          {t("ecosystem.heading")}
         </h2>
         <p className="text-base md:text-lg text-gray-300">
-          Explore the vibrant ecosystem that supports filmmaking from props and
-          production assets to local artists and technician. Each element plays
-          a crucial role in shaping authentic cinematic experiences.
+          {t("ecosystem.subtitle")}
         </p>
       </div>
 
@@ -126,8 +102,8 @@ function Cinemaecosystem() {
         <div className="w-full md:basis-1/3 md:max-w-[32%]">
           <Longcards
             imageUrl="/vendor2.png"
-            title="Production Assets"
-            description="Access a comprehensive inventory of props and production equipment tailored for diverse cinematic requirements."
+            title={t("ecosystem.card_1_title")}
+            description={t("ecosystem.card_1_desc")}
             onClick={() => handleCardClick("map")}
           />
         </div>
@@ -135,8 +111,8 @@ function Cinemaecosystem() {
         <div className="w-full md:basis-1/3 md:max-w-[32%]">
           <Longcards
             imageUrl="/localArtist.png"
-            title="Local Artists"
-            description="Connect with a pool of talented local actors, singers, music and dance artists to bring authentic regional flavour to your productions."
+            title={t("ecosystem.card_2_title")}
+            description={t("ecosystem.card_2_desc")}
             onClick={() => handleCardClick("localArtist")}
           />
         </div>
@@ -144,8 +120,8 @@ function Cinemaecosystem() {
         <div className="w-full md:basis-1/3 md:max-w-[32%]">
           <Longcards
             imageUrl="/securityEcosystem.png"
-            title="Local Technicians & Manpower"
-            description="Ensure a secure filming environment with professional safety services and on-location security management."
+            title={t("ecosystem.card_3_title")}
+            description={t("ecosystem.card_3_desc")}
             onClick={() => handleCardClick("security")}
           />
         </div>

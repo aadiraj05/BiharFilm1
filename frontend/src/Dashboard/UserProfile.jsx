@@ -202,7 +202,7 @@ const UserProfile = () => {
         {
           password: passwordData.newPassword,
           newPassword: passwordData.newPassword, // Sending both to match potential backend expectation
-        }
+        },
       );
 
       if (response.data.success) {
@@ -291,12 +291,54 @@ const UserProfile = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl  overflow-hidden max-w-3xl mx-auto">
+        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden max-w-3xl mx-auto">
           {/* Personal Information Section */}
+          <div className="p-4 sm:p-6 md:p-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 sm:gap-6 mb-6">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#a92b4e] to-[#891737] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
+                  {profileData.name.charAt(0)}
+                </div>
+                <div className="text-center sm:text-left">
+                  <h2 className="text-xl font-bold text-gray-900">
+                    {profileData.name}
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {profileData.email}
+                  </p>
+                  <div className="flex items-center justify-center sm:justify-start gap-2 mt-2">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-100">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      Active Member
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-gray-100">
+              <div>
+                <p className="text-xs font-medium text-gray-500 mb-1">
+                  Full Name
+                </p>
+                <p className="text-sm text-gray-900 font-medium">
+                  {profileData.name}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-500 mb-1">
+                  Email Address
+                </p>
+                <p className="text-sm text-gray-900 font-medium">
+                  {profileData.email}
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Security Section */}
-          <div className="p-6 md:p-8 bg-gray-50/30">
-            <div className="flex items-center justify-between mb-6">
+          <div className="p-4 sm:p-6 md:p-8 bg-gray-50 border-t border-gray-100">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-gray-50 rounded-lg text-[#891737]">
                   <Lock size={20} />
@@ -313,24 +355,26 @@ const UserProfile = () => {
             </div>
 
             {!isEditingPassword ? (
-              <div className="bg-white border border-gray-200 rounded-lg p-5 flex items-center justify-between">
+              <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Password</p>
+                  <p className="text-sm font-semibold text-gray-900">
+                    Password
+                  </p>
                   <p className="text-xs text-gray-500 mt-1">
                     Last changed: {formatDateTime(passwordData.lastChanged)}
                   </p>
                 </div>
                 <button
                   onClick={() => setIsEditingPassword(true)}
-                  className="text-sm font-medium text-[#891737] hover:bg-[#891737]/5 px-4 py-2 rounded-lg border border-[#891737]/20 transition-colors"
+                  className="w-full sm:w-auto text-sm font-medium text-[#891737] hover:bg-[#891737] hover:text-white px-4 py-2 rounded-lg border border-[#891737]/20 transition-colors"
                 >
                   Change Password
                 </button>
               </div>
             ) : (
-              <div className="bg-white border border-gray-200 rounded-lg p-6 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-                  <div className="space-y-1.5">
+              <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mb-6">
+                  <div className="space-y-1.5 focus-within:text-[#891737] transition-colors">
                     <label className="text-xs font-medium text-gray-700">
                       Current Password
                     </label>
@@ -365,8 +409,8 @@ const UserProfile = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-gray-700">
+                  <div className="space-y-1.5 focus-within:text-[#891737] transition-colors">
+                    <label className="text-xs font-medium text-gray-700 inherit">
                       New Password
                     </label>
                     <div className="relative">
@@ -400,8 +444,8 @@ const UserProfile = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-gray-700">
+                  <div className="space-y-1.5 focus-within:text-[#891737] transition-colors">
+                    <label className="text-xs font-medium text-gray-700 inherit">
                       Confirm Password
                     </label>
                     <div className="relative">
@@ -472,22 +516,22 @@ const UserProfile = () => {
                     <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                       <div
                         className={`h-full transition-all duration-300 ${getStrengthColor(
-                          strengthCount
+                          strengthCount,
                         )}`}
                         style={{ width: `${(strengthCount / 5) * 100}%` }}
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mt-6 pt-6 border-t border-gray-50">
                     <button
                       onClick={handleCancelPassword}
-                      className="px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-lg transition-colors"
+                      className="w-full sm:w-auto px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-lg transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={handleSavePassword}
-                      className="px-4 py-2 text-xs font-medium text-white bg-[#891737] hover:bg-[#891737]/90 rounded-lg transition-colors"
+                      className="w-full sm:w-auto px-4 py-2 text-xs font-medium text-white bg-[#891737] hover:bg-[#891737]/90 rounded-lg transition-colors"
                     >
                       Update Password
                     </button>
@@ -497,37 +541,39 @@ const UserProfile = () => {
             )}
           </div>
           {/* Danger Zone */}
-          <div className="p-6 md:p-8 bg-red-50/50 border-t border-red-100">
-            <div className="flex items-start gap-4">
-              <div className="p-2 bg-red-100/50 rounded-lg text-red-600 mt-1">
-                <TriangleAlert size={20} />
+          <div className="p-4 sm:p-6 md:p-8 bg-white border-t border-gray-100">
+            <div className="flex flex-col items-start gap-4">
+              <div className="p-3 bg-red-50 rounded-xl text-red-600 flex-shrink-0">
+                <TriangleAlert size={28} strokeWidth={1.5} />
               </div>
-              <div className="flex-1">
-                <h3 className="text-base font-semibold text-gray-900 mb-1">
+              <div className="flex-1 w-full">
+                <h3 className="text-xl font-bold text-gray-900 mb-1">
                   Danger Zone
                 </h3>
-                <p className="text-xs text-gray-500 mb-4">
-                  Permanently delete your account and all associated data.
+                <p className="text-sm text-gray-500 mb-6">
+                  Permanently delete your account and all associated data
                 </p>
 
-                <div className="bg-white border border-red-100 rounded-lg p-4 mb-4">
-                  <ul className="list-disc list-inside text-xs text-red-600 space-y-1 font-medium">
+                <div className="bg-white border border-red-100/60 rounded-xl p-5 mb-6">
+                  <ul className="list-disc list-inside text-[13px] text-red-600 space-y-2 font-medium">
                     <li>
                       Account deletion is permanent and cannot be reversed.
                     </li>
-                    <li className="whitespace-nowrap">
+                    <li className="whitespace-normal sm:whitespace-nowrap">
                       Once the account is deleted, all associated work, data,
                       and saved progress will be permanently removed.
                     </li>
                   </ul>
                 </div>
 
-                <button
-                  onClick={handleDeleteAccount}
-                  className="px-4 py-2 text-xs font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors shadow-sm flex items-center gap-2"
-                >
-                  Delete Account
-                </button>
+                <div className="flex justify-start">
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="w-full sm:w-full md:w-auto px-6 py-3.5 text-sm font-semibold text-white bg-[#e60000] hover:bg-[#cc0000] rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    Delete Account
+                  </button>
+                </div>
               </div>
             </div>
           </div>

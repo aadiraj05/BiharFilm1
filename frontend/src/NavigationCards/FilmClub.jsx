@@ -4,30 +4,29 @@ import { useNavigate } from "react-router-dom";
 import { CiCoffeeCup } from "react-icons/ci";
 import { RiFilmAiFill, RiMovie2Line } from "react-icons/ri";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 import "../App.css";
 
 const FilmClubUI = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const cards = [
     {
-      title: "Coffee With Film",
-      description:
-        "Think critically to improve young people's imagination and creativity skills through cinematic discussions.",
+      titleKey: "filmClub.card_1_title",
+      descKey: "filmClub.card_1_desc",
       icon: <CiCoffeeCup className="text-white text-3xl" />,
       slug: "coffee-with-film",
     },
     {
-      title: "Cine Samvad",
-      description:
-        "Explore engaging content and the vibrant film industry of Bihar through interactive sessions.",
+      titleKey: "filmClub.card_2_title",
+      descKey: "filmClub.card_2_desc",
       icon: <RiFilmAiFill className="text-white text-3xl" />,
       slug: "cine-samvad",
     },
     {
-      title: "Cine Activities",
-      description:
-        "Engage in detailed movie discussions with presentations, embedded clips, and interactive worksheets.",
+      titleKey: "filmClub.card_3_title",
+      descKey: "filmClub.card_3_desc",
       icon: <RiMovie2Line className="text-white text-3xl" />,
       slug: "cineactivities",
     },
@@ -59,12 +58,11 @@ const FilmClubUI = () => {
         className="relative z-10 text-center text-white max-w-3xl mb-8"
       >
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl great-vibes-regular mb-3 text-white drop-shadow-2xl">
-          FilmClub
+          {t("filmClub.heading")}
         </h1>
 
         <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
-          Discover, explore, and celebrate the art of cinema through immersive
-          experiences and meaningful conversations.
+          {t("filmClub.subtitle")}
         </p>
       </motion.div>
 
@@ -106,17 +104,17 @@ const FilmClubUI = () => {
                 {/* Text Content */}
                 <div className="flex-1 mt-5 mb-4">
                   <h2 className="text-xl font-bold text-white mb-2.5">
-                    {card.title}
+                    {t(card.titleKey)}
                   </h2>
                   <p className="text-sm text-gray-300 leading-relaxed">
-                    {card.description}
+                    {t(card.descKey)}
                   </p>
                 </div>
 
                 {/* Simple CTA */}
                 <div className="flex items-center justify-between pt-3 border-t border-white/10">
                   <span className="text-sm font-medium text-gray-300 transition-all duration-300 group-hover:text-white">
-                    Explore Program
+                    {t("filmClub.explore_program")}
                   </span>
 
                   {/* Simple Arrow */}

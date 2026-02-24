@@ -1,270 +1,229 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import "../App.css";
 
-const people = [
-  {
-    id: 1,
-    name: "Manoj Bajpayee",
-    occupation: "Actor",
-    dob: "23 April 1969",
-    district: "West Champaran",
-    img: "https://th-i.thgim.com/public/incoming/n3k61b/article68075789.ece/alternates/FREE_1200/MANOJ-SHHHH.jpg",
-    description:
-      "Renowned for powerful roles in independent and commercial films.",
-
-    imdb: "https://www.imdb.com/name/nm0048075/?ref_=ext_shr_lnk",
-  },
-  // rest of your people array remains the same
-  {
-    id: 2,
-    name: "Pankaj Tripathi",
-    occupation: "Actor",
-    dob: "5 September 1976",
-    district: "Gopalganj",
-    img: "https://media.assettype.com/freepressjournal/2022-01/bdc02614-b127-4db2-a440-2f44b9f5f284/Screenshot_2022_01_25_at_5_43_01_AM.png?width=1200",
-    description: "Famous for his versatility and natural acting style.",
-
-    imdb: "https://www.imdb.com/name/nm2690647/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 3,
-    name: "Prakash Jha",
-    occupation: "Producer & Actor",
-    dob: "27 February 1952",
-    district: "Bettiah, West Champaran",
-    img: "https://m.media-amazon.com/images/M/MV5BMTc1NjMwNDE4Ml5BMl5BanBnXkFtZTgwODA1ODA0OTE@._V1_.jpg",
-    description:
-      "Renowned filmmaker known for his political and socio-political films.",
-
-    imdb: "https://www.imdb.com/name/nm0422552/",
-  },
-
-  {
-    id: 4,
-    name: "Shatrughan Sinha",
-    occupation: "Actor",
-    dob: "15 July 1946",
-    district: "Patna",
-    img: "https://sm.mashable.com/mashable_in/seo/8/88864/88864_trrd.png",
-    description: "Veteran actor and politician, iconic in 70s-80s cinema.",
-
-    imdb: "https://www.imdb.com/name/nm0802374/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 5,
-    name: "Sushant Singh Rajput",
-    occupation: "Actor",
-    dob: "21 January 1986",
-    district: "Patna",
-    img: "https://i.pinimg.com/736x/40/60/63/406063a5d7bf517313bf00ee5d6ab840.jpg",
-    description: "Talented actor known for heartfelt performances.",
-
-    imdb: "https://www.imdb.com/name/nm3818286/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 6,
-    name: "Neha Sharma",
-    occupation: "Actress",
-    dob: "21 November 1987",
-    district: "Bhagalpur",
-    img: "https://akm-img-a-in.tosshub.com/aajtak/images/video/202403/6600096b7e220-will-neha-sharma-contest-elections-from-bihar-240722280-16x9.png",
-    description: "Actress and model with presence in films and web series.",
-
-    imdb: "https://www.imdb.com/name/nm2777281/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 7,
-    name: "Nitu Chandra",
-    occupation: "Actress",
-    dob: "20 June 1984",
-    district: "Patna",
-    img: "https://www.filmibeat.com/wimg/desktop/2019/08/neetu-chandra_10.jpg",
-    description:
-      "Indian actress known for her roles in Hindi, Tamil, and Telugu cinema. ",
-
-    imdb: "https://www.imdb.com/name/nm1911617/?ref_=ext_shr_lnk",
-  },
-  {
-    id: 8,
-    name: "Vinay Pathak",
-    occupation: "Actor",
-    dob: "27 July 1968",
-    district: "Bhojpur, Bihar ",
-    img: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/201808/Vinay_Pathak-BAN-08052018.jpeg",
-    description:
-      "Actor known for comedy roles in Bheja Fry and Khosla Ka Ghosla. ",
-
-    imdb: "https://www.imdb.com/name/nm0665555/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 9,
-    name: "Imtiaz Ali",
-    occupation: "Film Director & Writer",
-    dob: "16 June 1971",
-    district: "Jamshedpur (then Bihar)",
-    img: "https://m.media-amazon.com/images/M/MV5BMTYwOTUwMTk3MF5BMl5BanBnXkFtZTgwMjA1NDEzMTE@._V1_.jpg",
-    description:
-      "Renowned Indian film director, producer, and writer known for his brilliant work",
-
-    imdb: "https://www.imdb.com/name/nm1665004/",
-  },
-
-  {
-    id: 10,
-    name: "Sanjay Mishra",
-    occupation: "Actor",
-    dob: "6 October 1963",
-    district: "Darbhangha",
-    img: "https://i.pinimg.com/564x/33/cf/5a/33cf5a9baf45e25e6b8ce5adc89f8b54.jpg",
-    description: "Celebrated for comic timing and strong character roles.",
-
-    imdb: "https://www.imdb.com/name/nm0592799/?ref_=ext_shr_lnk",
-  },
-  {
-    id: 11,
-    name: "Arunabh Kumar",
-    occupation: "Entrepreneur, Producer, Director, Actor",
-    dob: "26 November 1982",
-    district: "Muzaffarpur",
-    img: "https://www.iwmbuzz.com/wp-content/uploads/2025/06/arunabh-kumar-shares-a-heartfelt-note-on-his-wedding-anniversary-15.jpg",
-    description:
-      "Founder of TVF, known for web series like 'Permanent Roommates' and 'Pitchers'.",
-
-    imdb: "https://www.imdb.com/name/nm2837311/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 12,
-    name: "Gurmeet Choudhary",
-    occupation: "Actor",
-    dob: "22 February 1984",
-    district: "Bhagalpur",
-    img: "https://www.gethucinema.com/tmdb/eCeElyYgPm1ZvV1NWlBeQbUCp8c.jpg",
-    description: "TV and film actor popular for mythological and action roles.",
-
-    imdb: "https://www.imdb.com/name/nm3073211/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 13,
-    name: "Chandan Roy",
-    occupation: "Actor",
-    dob: "20 December 1995",
-    district: "Mahnar (Vaishali district)",
-    img: "https://assets.telegraphindia.com/telegraph/2024/May/1714709299_chandan-roy.jpg",
-    description:
-      "Known for his warm, authentic portrayal of Vikas Shukla in 'Panchayat'..",
-
-    imdb: "https://www.imdb.com/name/nm10881552/",
-  },
-  {
-    id: 14,
-    name: "Ashok Pathak",
-    occupation: "Actor",
-    dob: "3 January 1985",
-    district: "Darveshpur, near Siwan",
-    img: "https://image.tmdb.org/t/p/w500/a60LOKJd2FTNxfLSo7QCQEyjZgO.jpg",
-    description:
-      "Bihari-born actor known for winning hearts as 'Binod' in Panchayat.",
-
-    imdb: "https://www.imdb.com/name/nm5131331/",
-  },
-  {
-    id: 15,
-    name: "Chandan Tiwari",
-    occupation: "Actor, Painter, Writer, Director",
-    dob: "2 February 1970",
-    district: "Saharsa",
-    img: "https://m.media-amazon.com/images/M/MV5BMGE5ZWY1YzctYTA3Ni00MWU0LWE3OWUtZDY1MjBiNjUzYmFmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-    description:
-      "Actor, acclaimed for his grounded portrayal of MLA Chandu Singh in Panchayat",
-
-    imdb: "https://www.imdb.com/name/nm13792834/?ref_=ext_shr_lnk",
-  },
-  {
-    id: 16,
-    name: "Durgesh Kumar",
-    occupation: "Actor",
-    dob: "21 October 1984",
-    district: "Darbhanga, Bihar",
-    img: "https://m.media-amazon.com/images/M/MV5BYzVmZTgyODctNDBiZC00YzM2LWExYzAtODQzYjBkMjI5NmY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-
-    description: "Actor known for playing Bhushan in Panchayat .",
-
-    imdb: "https://www.imdb.com/name/nm6294201/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 17,
-    name: "Bulloo Kumar",
-    occupation: "Actor",
-    dob: "5 February 1986",
-    district: "Nawada",
-    img: "https://m.media-amazon.com/images/M/MV5BYmM2NTBiOGEtNmMzMC00ZTY3LTllOTAtZjVkNWJjM2U0ZTMwXkEyXkFqcGc@._V1_.jpg",
-    description:
-      "Actor from Bihar, known for his comical role as Madhav in  Panchayat.",
-
-    imdb: "https://www.imdb.com/name/nm12872303/?ref_=ext_shr_lnk",
-  },
-
-  {
-    id: 18,
-    name: "Ustad Bismillah Khan",
-    occupation: "Shehnai Maestro",
-    dob: "21 March 1916",
-    district: "Dumraon (Buxar)",
-    img: "https://akm-img-a-in.tosshub.com/indiatoday/bismillah-khan-647_032116095003.jpg",
-    description: "Legendary Shehnai player, Bharat Ratna awardee.",
-
-    imdb: "https://www.imdb.com/name/nm0451190/?ref_=ext_shr_lnk",
-  },
-  {
-    id: 19,
-    name: "Sharda Sinha",
-    occupation: "Folk Singer",
-    dob: "1 October 1952",
-    district: "Samastipur",
-    img: "https://cf-img-a-in.tosshub.com/sites/visualstory/wp/2024/11/India-Today_Sharda-Sinha-YIM6937-1-1-scaled.jpg?size=*:900",
-    description: "Voice of Bihar's folk heritage, especially during Chhath.",
-
-    imdb: "https://www.imdb.com/name/nm0788686/?ref_=ext_shr_lnk",
-  },
-  {
-    id: 20,
-    name: "Maithili Thakur",
-    occupation: "Folk/Classic Singer",
-    dob: "25 July 2000",
-    district: "Madhubani",
-    img: "https://c.saavncdn.com/artists/Maithili_Thakur_002_20230227072619_500x500.jpg",
-    description: "Young prodigy promoting Indian classical and folk music.",
-
-    imdb: "https://www.imdb.com/name/nm9859083/?ref_=ext_shr_lnk",
-  },
-  {
-    id: 21,
-    name: "Chandan Tiwari",
-    occupation: "Folk Singer",
-    dob: "15 August 1985",
-    district: "Patna",
-    img: "https://chandantiwari.in/wp-content/uploads/2024/11/PHOTO-2024-03-27-16-07-40-1.jpg",
-    description: "Folk singer reviving Bhojpuri and regional traditions.",
-
-    imdb: "https://www.imdb.com/name/nm13792834/?ref_=ext_shr_lnk",
-  },
-];
-
 const CarouselOfCelebs = () => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [flippedCard, setFlippedCard] = useState(null); // Track which card is flipped for mobile
+  const [flippedCard, setFlippedCard] = useState(null);
   const scrollRef = useRef(null);
+
+  const people = [
+    {
+      id: 1,
+      name: "Manoj Bajpayee",
+      occupation: t("actors.p1_occ"),
+      dob: "23 April 1969",
+      district: t("actors.p1_dist"),
+      img: "https://th-i.thgim.com/public/incoming/n3k61b/article68075789.ece/alternates/FREE_1200/MANOJ-SHHHH.jpg",
+      description: t("actors.p1_desc"),
+      imdb: "https://www.imdb.com/name/nm0048075/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 2,
+      name: "Pankaj Tripathi",
+      occupation: t("actors.p2_occ"),
+      dob: "5 September 1976",
+      district: t("actors.p2_dist"),
+      img: "https://media.assettype.com/freepressjournal/2022-01/bdc02614-b127-4db2-a440-2f44b9f5f284/Screenshot_2022_01_25_at_5_43_01_AM.png?width=1200",
+      description: t("actors.p2_desc"),
+      imdb: "https://www.imdb.com/name/nm2690647/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 3,
+      name: "Prakash Jha",
+      occupation: t("actors.p3_occ"),
+      dob: "27 February 1952",
+      district: t("actors.p3_dist"),
+      img: "https://m.media-amazon.com/images/M/MV5BMTc1NjMwNDE4Ml5BMl5BanBnXkFtZTgwODA1ODA0OTE@._V1_.jpg",
+      description: t("actors.p3_desc"),
+      imdb: "https://www.imdb.com/name/nm0422552/",
+    },
+    {
+      id: 4,
+      name: "Shatrughan Sinha",
+      occupation: t("actors.p4_occ"),
+      dob: "15 July 1946",
+      district: t("actors.p4_dist"),
+      img: "https://sm.mashable.com/mashable_in/seo/8/88864/88864_trrd.png",
+      description: t("actors.p4_desc"),
+      imdb: "https://www.imdb.com/name/nm0802374/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 5,
+      name: "Sushant Singh Rajput",
+      occupation: t("actors.p5_occ"),
+      dob: "21 January 1986",
+      district: t("actors.p5_dist"),
+      img: "https://i.pinimg.com/736x/40/60/63/406063a5d7bf517313bf00ee5d6ab840.jpg",
+      description: t("actors.p5_desc"),
+      imdb: "https://www.imdb.com/name/nm3818286/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 6,
+      name: "Neha Sharma",
+      occupation: t("actors.p6_occ"),
+      dob: "21 November 1987",
+      district: t("actors.p6_dist"),
+      img: "https://akm-img-a-in.tosshub.com/aajtak/images/video/202403/6600096b7e220-will-neha-sharma-contest-elections-from-bihar-240722280-16x9.png",
+      description: t("actors.p6_desc"),
+      imdb: "https://www.imdb.com/name/nm2777281/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 7,
+      name: "Nitu Chandra",
+      occupation: t("actors.p7_occ"),
+      dob: "20 June 1984",
+      district: t("actors.p7_dist"),
+      img: "https://www.filmibeat.com/wimg/desktop/2019/08/neetu-chandra_10.jpg",
+      description: t("actors.p7_desc"),
+      imdb: "https://www.imdb.com/name/nm1911617/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 8,
+      name: "Vinay Pathak",
+      occupation: t("actors.p8_occ"),
+      dob: "27 July 1968",
+      district: t("actors.p8_dist"),
+      img: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/201808/Vinay_Pathak-BAN-08052018.jpeg",
+      description: t("actors.p8_desc"),
+      imdb: "https://www.imdb.com/name/nm0665555/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 9,
+      name: "Imtiaz Ali",
+      occupation: t("actors.p9_occ"),
+      dob: "16 June 1971",
+      district: t("actors.p9_dist"),
+      img: "https://m.media-amazon.com/images/M/MV5BMTYwOTUwMTk3MF5BMl5BanBnXkFtZTgwMjA1NDEzMTE@._V1_.jpg",
+      description: t("actors.p9_desc"),
+      imdb: "https://www.imdb.com/name/nm1665004/",
+    },
+    {
+      id: 10,
+      name: "Sanjay Mishra",
+      occupation: t("actors.p10_occ"),
+      dob: "6 October 1963",
+      district: t("actors.p10_dist"),
+      img: "https://i.pinimg.com/564x/33/cf/5a/33cf5a9baf45e25e6b8ce5adc89f8b54.jpg",
+      description: t("actors.p10_desc"),
+      imdb: "https://www.imdb.com/name/nm0592799/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 11,
+      name: "Arunabh Kumar",
+      occupation: t("actors.p11_occ"),
+      dob: "26 November 1982",
+      district: t("actors.p11_dist"),
+      img: "https://www.iwmbuzz.com/wp-content/uploads/2025/06/arunabh-kumar-shares-a-heartfelt-note-on-his-wedding-anniversary-15.jpg",
+      description: t("actors.p11_desc"),
+      imdb: "https://www.imdb.com/name/nm2837311/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 12,
+      name: "Gurmeet Choudhary",
+      occupation: t("actors.p12_occ"),
+      dob: "22 February 1984",
+      district: t("actors.p12_dist"),
+      img: "https://www.gethucinema.com/tmdb/eCeElyYgPm1ZvV1NWlBeQbUCp8c.jpg",
+      description: t("actors.p12_desc"),
+      imdb: "https://www.imdb.com/name/nm3073211/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 13,
+      name: "Chandan Roy",
+      occupation: t("actors.p13_occ"),
+      dob: "20 December 1995",
+      district: t("actors.p13_dist"),
+      img: "https://assets.telegraphindia.com/telegraph/2024/May/1714709299_chandan-roy.jpg",
+      description: t("actors.p13_desc"),
+      imdb: "https://www.imdb.com/name/nm10881552/",
+    },
+    {
+      id: 14,
+      name: "Ashok Pathak",
+      occupation: t("actors.p14_occ"),
+      dob: "3 January 1985",
+      district: t("actors.p14_dist"),
+      img: "https://image.tmdb.org/t/p/w500/a60LOKJd2FTNxfLSo7QCQEyjZgO.jpg",
+      description: t("actors.p14_desc"),
+      imdb: "https://www.imdb.com/name/nm5131331/",
+    },
+    {
+      id: 15,
+      name: "Chandan Tiwari",
+      occupation: t("actors.p15_occ"),
+      dob: "2 February 1970",
+      district: t("actors.p15_dist"),
+      img: "https://m.media-amazon.com/images/M/MV5BMGE5ZWY1YzctYTA3Ni00MWU0LWE3OWUtZDY1MjBiNjUzYmFmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+      description: t("actors.p15_desc"),
+      imdb: "https://www.imdb.com/name/nm13792834/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 16,
+      name: "Durgesh Kumar",
+      occupation: t("actors.p16_occ"),
+      dob: "21 October 1984",
+      district: t("actors.p16_dist"),
+      img: "https://m.media-amazon.com/images/M/MV5BYzVmZTgyODctNDBiZC00YzM2LWExYzAtODQzYjBkMjI5NmY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+      description: t("actors.p16_desc"),
+      imdb: "https://www.imdb.com/name/nm6294201/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 17,
+      name: "Bulloo Kumar",
+      occupation: t("actors.p17_occ"),
+      dob: "5 February 1986",
+      district: t("actors.p17_dist"),
+      img: "https://m.media-amazon.com/images/M/MV5BYmM2NTBiOGEtNmMzMC00ZTY3LTllOTAtZjVkNWJjM2U0ZTMwXkEyXkFqcGc@._V1_.jpg",
+      description: t("actors.p17_desc"),
+      imdb: "https://www.imdb.com/name/nm12872303/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 18,
+      name: "Ustad Bismillah Khan",
+      occupation: t("actors.p18_occ"),
+      dob: "21 March 1916",
+      district: t("actors.p18_dist"),
+      img: "https://akm-img-a-in.tosshub.com/indiatoday/bismillah-khan-647_032116095003.jpg",
+      description: t("actors.p18_desc"),
+      imdb: "https://www.imdb.com/name/nm0451190/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 19,
+      name: "Sharda Sinha",
+      occupation: t("actors.p19_occ"),
+      dob: "1 October 1952",
+      district: t("actors.p19_dist"),
+      img: "https://cf-img-a-in.tosshub.com/sites/visualstory/wp/2024/11/India-Today_Sharda-Sinha-YIM6937-1-1-scaled.jpg?size=*:900",
+      description: t("actors.p19_desc"),
+      imdb: "https://www.imdb.com/name/nm0788686/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 20,
+      name: "Maithili Thakur",
+      occupation: t("actors.p20_occ"),
+      dob: "25 July 2000",
+      district: t("actors.p20_dist"),
+      img: "https://c.saavncdn.com/artists/Maithili_Thakur_002_20230227072619_500x500.jpg",
+      description: t("actors.p20_desc"),
+      imdb: "https://www.imdb.com/name/nm9859083/?ref_=ext_shr_lnk",
+    },
+    {
+      id: 21,
+      name: "Chandan Tiwari",
+      occupation: t("actors.p21_occ"),
+      dob: "15 August 1985",
+      district: t("actors.p21_dist"),
+      img: "https://chandantiwari.in/wp-content/uploads/2024/11/PHOTO-2024-03-27-16-07-40-1.jpg",
+      description: t("actors.p21_desc"),
+      imdb: "https://www.imdb.com/name/nm13792834/?ref_=ext_shr_lnk",
+    },
+  ];
+
   const total = people.length;
 
   useEffect(() => {
@@ -272,12 +231,10 @@ const CarouselOfCelebs = () => {
       const mobile = window.innerWidth < 640;
       setIsMobile(mobile);
 
-      // Reset to first item when switching between mobile/desktop
       if (mobile && currentIndex >= total) {
         setCurrentIndex(0);
       }
 
-      // Reset flipped card when switching screen sizes
       setFlippedCard(null);
     };
 
@@ -286,11 +243,10 @@ const CarouselOfCelebs = () => {
     return () => window.removeEventListener("resize", updateScreenSize);
   }, [currentIndex, total]);
 
-  // Mobile navigation functions
   const nextSlide = () => {
     if (isMobile) {
       setCurrentIndex((prev) => (prev + 1) % total);
-      setFlippedCard(null); // Reset flip when navigating
+      setFlippedCard(null);
     } else {
       scrollRef.current?.scrollBy({ left: 340, behavior: "smooth" });
     }
@@ -299,20 +255,18 @@ const CarouselOfCelebs = () => {
   const prevSlide = () => {
     if (isMobile) {
       setCurrentIndex((prev) => (prev - 1 + total) % total);
-      setFlippedCard(null); // Reset flip when navigating
+      setFlippedCard(null);
     } else {
       scrollRef.current?.scrollBy({ left: -340, behavior: "smooth" });
     }
   };
 
-  // Handle card click for mobile flip functionality
   const handleCardClick = (cardId) => {
     if (isMobile) {
       setFlippedCard(flippedCard === cardId ? null : cardId);
     }
   };
 
-  // Touch event handlers for mobile swipe
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -342,7 +296,7 @@ const CarouselOfCelebs = () => {
   return (
     <div className="w-full flex flex-col items-center justify-center bg-[#190108] py-10 h-screen">
       <h2 className="text-white text-3xl sm:text-3xl md:text-4xl lg:text-5xl playwrite-mx-guides-regular mb-10 pt-10 pb-8 text-center px-4">
-        Celebrities of Bihar
+        {t("actors.heading")}
       </h2>
 
       <div className="relative mx-auto max-w-full px-4 sm:px-6 md:px-8 lg:px-10">
@@ -410,10 +364,11 @@ const CarouselOfCelebs = () => {
                           {people[currentIndex].occupation}
                         </p>
                         <p className="mb-1">
-                          Date of Birth: {people[currentIndex].dob}
+                          {t("actors.dob_label")} {people[currentIndex].dob}
                         </p>
                         <p className="mb-1">
-                          District: {people[currentIndex].district}
+                          {t("actors.district_label")}{" "}
+                          {people[currentIndex].district}
                         </p>
                         <p className="mb-1">
                           {people[currentIndex].description}
@@ -500,7 +455,7 @@ const CarouselOfCelebs = () => {
                             {/* Date of Birth */}
                             <div className="flex items-center gap-2">
                               <span className="text-gray-400 text-xs w-16">
-                                DOB
+                                {t("actors.dob_short")}
                               </span>
                               <span className="text-white font-medium">
                                 {person.dob}
@@ -510,7 +465,7 @@ const CarouselOfCelebs = () => {
                             {/* District */}
                             <div className="flex items-center gap-2">
                               <span className="text-gray-400 text-xs w-16">
-                                District
+                                {t("actors.district_short")}
                               </span>
                               <span className="text-white font-medium">
                                 {person.district}
@@ -520,7 +475,7 @@ const CarouselOfCelebs = () => {
                             {/* Description */}
                             <div className="flex items-start gap-2">
                               <span className="text-gray-400 text-xs w-16 pt-0.5">
-                                About
+                                {t("actors.about")}
                               </span>
                               <p className="text-gray-200 text-xs leading-relaxed flex-1">
                                 {person.description}
@@ -543,7 +498,7 @@ const CarouselOfCelebs = () => {
                                 className="h-4 opacity-80 group-hover:opacity-100 transition-opacity"
                               />
                               <span className="text-xs text-yellow-200">
-                                View Profile
+                                {t("actors.view_profile")}
                               </span>
                             </a>
                           </div>

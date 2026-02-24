@@ -1,26 +1,47 @@
-import React from 'react';
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 const FilmSubsidyTable = () => {
+  const { t } = useTranslation();
+
   const filmData = [
     {
-      filmNo: '1st Film',
+      filmNo: t("filmPolicy.fst_film1"),
       ranges: [
-        { subsidy: 'Up to ₹2 Crore or 25% of total film cost, whichever is lower', criteria: 'Minimum 50% of total shooting days in the State' },
-        { subsidy: 'Up to ₹2.50 Crore or 25% of total film cost, whichever is lower', criteria: 'Minimum 75% of total shooting days in the State' },
+        {
+          subsidy: t("filmPolicy.fst_1_sub1"),
+          criteria: t("filmPolicy.fst_1_cri1"),
+        },
+        {
+          subsidy: t("filmPolicy.fst_1_sub2"),
+          criteria: t("filmPolicy.fst_1_cri2"),
+        },
       ],
     },
     {
-      filmNo: '2nd Film',
+      filmNo: t("filmPolicy.fst_film2"),
       ranges: [
-        { subsidy: 'Up to ₹2.75 Crore or 25% of total film cost, whichever is lower', criteria: 'Minimum 50% of total shooting days in the State' },
-        { subsidy: 'Up to ₹3.00 Crore or 25% of total film cost, whichever is lower', criteria: 'Minimum 75% of total shooting days in the State' },
+        {
+          subsidy: t("filmPolicy.fst_2_sub1"),
+          criteria: t("filmPolicy.fst_2_cri1"),
+        },
+        {
+          subsidy: t("filmPolicy.fst_2_sub2"),
+          criteria: t("filmPolicy.fst_2_cri2"),
+        },
       ],
     },
     {
-      filmNo: '3rd Film',
+      filmNo: t("filmPolicy.fst_film3"),
       ranges: [
-        { subsidy: 'Up to ₹3.50 Crore or 25% of total film cost, whichever is lower', criteria: 'Minimum 50% of total shooting days in the State' },
-        { subsidy: 'Up to ₹4.00 Crore or 25% of total film cost, whichever is lower', criteria: 'Minimum 75% of total shooting days in the State' },
+        {
+          subsidy: t("filmPolicy.fst_3_sub1"),
+          criteria: t("filmPolicy.fst_3_cri1"),
+        },
+        {
+          subsidy: t("filmPolicy.fst_3_sub2"),
+          criteria: t("filmPolicy.fst_3_cri2"),
+        },
       ],
     },
   ];
@@ -30,9 +51,9 @@ const FilmSubsidyTable = () => {
       <table className="min-w-full text-sm text-left border border-gray-300">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-3 border">Film Category</th>
-            <th className="p-3 border">Grant / Subsidy</th>
-            <th className="p-3 border">Criteria</th>
+            <th className="p-3 border">{t("filmPolicy.fst_col_category")}</th>
+            <th className="p-3 border">{t("filmPolicy.fst_col_subsidy")}</th>
+            <th className="p-3 border">{t("filmPolicy.fst_col_criteria")}</th>
           </tr>
         </thead>
         <tbody>
@@ -50,7 +71,7 @@ const FilmSubsidyTable = () => {
                 <td className="p-3 border">{range.subsidy}</td>
                 <td className="p-3 border">{range.criteria}</td>
               </tr>
-            ))
+            )),
           )}
         </tbody>
       </table>

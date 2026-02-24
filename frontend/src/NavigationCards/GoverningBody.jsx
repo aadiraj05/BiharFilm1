@@ -1,97 +1,6 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../App.css";
-
-const topImages = [
-  {
-    src: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/startup_bihar%2FOfficers%2FACS%20Industry.jpeg?alt=media&token=48a4ed7a-4f70-4113-b59b-de5ecb9aa6c3",
-    alt: "Leader 1",
-    name: "Shri Mihir Kumar Singh, IAS",
-    namee: "Director-cum-Chairman, BSFDFC",
-    nameee: "(Development Commissioner, Government of Bihar)",
-  },
-  {
-    src: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Fhome_secy.jpeg?alt=media&token=2f9b010e-0fed-4627-949d-a4779308a995",
-    alt: "Leader 2",
-    name: "Shri Pranav Kumar, IAS",
-    namee: "Managing Director, BSFDFC",
-    nameee: "Secretary (Art & Culture Department)",
-  },
-];
-
-const boardMembers = [
-  {
-    name: "Shri Mihir Kumar Singh, IAS",
-    role: "Development Commissioner, Govt. of Bihar, & Director-cum-Chairman, Bihar State Film Development and Finance Corporation Limited",
-    img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/startup_bihar%2FOfficers%2FACS%20Industry.jpeg?alt=media&token=48a4ed7a-4f70-4113-b59b-de5ecb9aa6c3",
-  },
-  {
-    name: "Shri Pranav Kumar, IAS",
-    role: "Secretary, Department of Art & Culture, Govt. of Bihar & Managing Director, Bihar State Film Development and Finance Corporation Limited",
-    img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Fhome_secy.jpeg?alt=media&token=2f9b010e-0fed-4627-949d-a4779308a995",
-  },
-  {
-    name: "Shri Kundan Kumar, IAS",
-    role: "Secretary, Department of Industries, Govt. of Bihar & Nominee Director, Bihar State Film Development and Finance Corporation Limited",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkiPticRwETbwqYFSc-9QSq31XbbnW7pzyxw&s",
-  },
-  {
-    name: "Shri Anupam Kumar, IAS",
-    role: "Secretary, Information and Public Relations Department, Govt. of Bihar & Nominee Director, Bihar State Film Development and Finance Corporation Limited",
-    img: "https://www.witnessinthecorridors.com/ImgNewsPolitical/240306161437635.png",
-  },
-
-  {
-    name: "Shri Mukesh Kumar Lal, IAAS",
-    role: "Special Secretary, Department of Finance, Govt. of Bihar & Nominee Director, Bihar State Film Development and Finance Corporation Limited",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEYTm34Dhbakb6IOciOhFU0pL_hU2xe6PCjA&s",
-  },
-];
-
-const bodyMembers = [
-  {
-    img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Fgeneral_manger.jpeg?alt=media&token=d2df1145-cfd1-466b-ad41-2436c2692255",
-    name: "Smt. Ruby, IAS",
-    role: "General Manager, BSFDFC",
-    description: "",
-  },
-  {
-    img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Farvind-ranjan-das.jpeg?alt=media&token=3c9c7c30-d276-4d65-aacc-bbe00bc4ca9a",
-    name: "Shri Arvind Ranjan Das",
-    role: "Consultant(Film)",
-    description: "0612-2219213",
-  },
-  {
-    img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    name: "V.D.Mishra",
-    role: "Consultant (Fin. & Account)",
-    description: "7482075777",
-  },
-
-  {
-    img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    name: "Sonika Kumari",
-    role: "Assistant Section Officer",
-    description: "",
-  },
-  {
-    img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    name: "Kumar Gaurav",
-    role: "Junior Consultant (Communication and Networking)",
-    description: "",
-  },
-  {
-    img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    name: "Leela Kumari Prasad",
-    role: "Data Entry Operator",
-    description: "",
-  },
-  {
-    img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    name: "Amit Ranjan",
-    role: "Data Entry Operator",
-    description: "",
-  },
-];
 
 const nodalOfficers = [
   {
@@ -637,13 +546,104 @@ const MobileMemberCard = ({ img, name, role, description }) => (
 );
 
 const GoverningComponent = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("board");
 
+  const topImages = [
+    {
+      src: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/startup_bihar%2FOfficers%2FACS%20Industry.jpeg?alt=media&token=48a4ed7a-4f70-4113-b59b-de5ecb9aa6c3",
+      alt: "Leader 1",
+      name: t("governing.top1_name"),
+      namee: t("governing.top1_title"),
+      nameee: t("governing.top1_subtitle"),
+    },
+    {
+      src: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Fhome_secy.jpeg?alt=media&token=2f9b010e-0fed-4627-949d-a4779308a995",
+      alt: "Leader 2",
+      name: t("governing.top2_name"),
+      namee: t("governing.top2_title"),
+      nameee: t("governing.top2_subtitle"),
+    },
+  ];
+
+  const boardMembers = [
+    {
+      name: t("governing.board1_name"),
+      role: t("governing.board1_role"),
+      img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/startup_bihar%2FOfficers%2FACS%20Industry.jpeg?alt=media&token=48a4ed7a-4f70-4113-b59b-de5ecb9aa6c3",
+    },
+    {
+      name: t("governing.board2_name"),
+      role: t("governing.board2_role"),
+      img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Fhome_secy.jpeg?alt=media&token=2f9b010e-0fed-4627-949d-a4779308a995",
+    },
+    {
+      name: t("governing.board3_name"),
+      role: t("governing.board3_role"),
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkiPticRwETbwqYFSc-9QSq31XbbnW7pzyxw&s",
+    },
+    {
+      name: t("governing.board4_name"),
+      role: t("governing.board4_role"),
+      img: "https://www.witnessinthecorridors.com/ImgNewsPolitical/240306161437635.png",
+    },
+    {
+      name: t("governing.board5_name"),
+      role: t("governing.board5_role"),
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEYTm34Dhbakb6IOciOhFU0pL_hU2xe6PCjA&s",
+    },
+  ];
+
+  const bodyMembers = [
+    {
+      img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Fgeneral_manger.jpeg?alt=media&token=d2df1145-cfd1-466b-ad41-2436c2692255",
+      name: t("governing.body1_name"),
+      role: t("governing.body1_role"),
+      description: "",
+    },
+    {
+      img: "https://firebasestorage.googleapis.com/v0/b/gatishaktibihar.firebasestorage.app/o/biharfilm%2Farvind-ranjan-das.jpeg?alt=media&token=3c9c7c30-d276-4d65-aacc-bbe00bc4ca9a",
+      name: t("governing.body2_name"),
+      role: t("governing.body2_role"),
+      description: "0612-2219213",
+    },
+    {
+      img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      name: t("governing.body3_name"),
+      role: t("governing.body3_role"),
+      description: "7482075777",
+    },
+    {
+      img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      name: t("governing.body4_name"),
+      role: t("governing.body4_role"),
+      description: "",
+    },
+    {
+      img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      name: t("governing.body5_name"),
+      role: t("governing.body5_role"),
+      description: "",
+    },
+    {
+      img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      name: t("governing.body6_name"),
+      role: t("governing.body6_role"),
+      description: "",
+    },
+    {
+      img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      name: t("governing.body7_name"),
+      role: t("governing.body7_role"),
+      description: "",
+    },
+  ];
+
   const tabs = [
-    { id: "board", label: "Board of Directors" },
-    { id: "management", label: "Management" },
-    { id: "nodal", label: "Nodal Officers" },
-    { id: "districts", label: "District Art and Culture Officers" },
+    { id: "board", label: t("governing.tab_board") },
+    { id: "management", label: t("governing.tab_management") },
+    { id: "nodal", label: t("governing.tab_nodal") },
+    { id: "districts", label: t("governing.tab_districts") },
   ];
 
   return (
@@ -652,9 +652,9 @@ const GoverningComponent = () => {
       id="GoverningBody"
     >
       {/* Title */}
-      <p className="text-white text-3xl sm:text-4xl md:text-7xl lg:text-8xl bebas-neue-regular pb-12 text-center sm:text-left sm:pl-12">
-        Organizational Structure
-      </p>
+      <h2 className="text-white text-3xl sm:text-4xl md:text-7xl lg:text-8xl bebas-neue-regular pb-12 text-center sm:text-left sm:pl-12">
+        {t("governing.heading")}
+      </h2>
 
       {/* Top Leaders */}
       <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-12">

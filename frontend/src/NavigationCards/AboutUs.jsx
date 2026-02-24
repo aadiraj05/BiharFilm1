@@ -37,8 +37,11 @@ import { motion } from "framer-motion";
 import Logo1 from "/src/assets/Logo1.png";
 import Navbar from "../Components/Navbar";
 import ContactUs from "./ContactUs";
+import { useTranslation } from "react-i18next";
 
 export default function AboutUs() {
+  const { t } = useTranslation();
+
   const legends = [
     {
       id: 1,
@@ -285,33 +288,33 @@ export default function AboutUs() {
   ];
 
   const objectives = [
-    "Promote Bihar as a vibrant filmmaking hub",
-    "Strengthen regional cinema (Bhojpuri, Maithili, Magahi, Angika, Bajjika)",
-    "Streamline film permissions through a single-window clearance system",
-    "Encourage investment in film infrastructure and skill development",
-    "Facilitate a transparent and efficient subsidy framework",
-    "Promote Bihar's culture, heritage, traditions and Tourist places",
+    t("aboutUs.obj_1"),
+    t("aboutUs.obj_2"),
+    t("aboutUs.obj_3"),
+    t("aboutUs.obj_4"),
+    t("aboutUs.obj_5"),
+    t("aboutUs.obj_6"),
   ];
 
   const subsidies = [
     {
-      title: "Feature Films",
-      desc: "Subsidy ranging from ₹2 crore to ₹4 crore based on shooting days (50% - 75%) and film category (1st, 2nd, or 3rd film).",
+      title: t("aboutUs.sub_feature_title"),
+      desc: t("aboutUs.sub_feature_desc"),
       icon: <Film className="w-8 h-8 text-white" />,
     },
     {
-      title: "Television Serials / Shows",
-      desc: "Subsidy up to ₹50 Lakhs for 45 days of shooting, or up to ₹1 crore for 90 days of shooting in Bihar.",
+      title: t("aboutUs.sub_tv_title"),
+      desc: t("aboutUs.sub_tv_desc"),
       icon: <Video className="w-8 h-8 text-white" />,
     },
     {
-      title: "Web Series / OTT Content",
-      desc: "Subsidy up to ₹2 crore (min 30 days/50%) or ₹3 crore (min 60 days/70%) of shooting in Bihar.",
+      title: t("aboutUs.sub_ott_title"),
+      desc: t("aboutUs.sub_ott_desc"),
       icon: <Globe className="w-8 h-8 text-white" />,
     },
     {
-      title: "Infrastructure Development",
-      desc: "Subsidy up to ₹1.5 crore for Film Cities/Studios, and up to ₹1 crore for equipment/tech setups (25% of investment).",
+      title: t("aboutUs.sub_infra_title"),
+      desc: t("aboutUs.sub_infra_desc"),
       icon: <MapPin className="w-8 h-8 text-white" />,
     },
   ];
@@ -327,40 +330,6 @@ export default function AboutUs() {
     "Magadh Putra (Gunjan Singh Entertainment)",
     "Echos of the Absent and Akhri Lesson (Kartina Entertainment & Sports Pvt. Ltd.)",
   ];
-
-  // const eligibleExpenses = [
-  //   { id: 1, name: "Lead Actors", icon: <Star className="w-4 h-4" /> },
-  //   { id: 2, name: "Producer", icon: <UserCircle className="w-4 h-4" /> },
-  //   { id: 3, name: "Director", icon: <Clapperboard className="w-4 h-4" /> },
-  //   { id: 4, name: "Supporting Cast", icon: <Users className="w-4 h-4" /> },
-  //   { id: 5, name: "Writer", icon: <Pen className="w-4 h-4" /> },
-  //   { id: 6, name: "Entourage", icon: <UsersRound className="w-4 h-4" /> },
-  //   { id: 7, name: "Extras & Features", icon: <Users className="w-4 h-4" /> },
-  //   { id: 8, name: "Direction Dept.", icon: <Video className="w-4 h-4" /> },
-  //   { id: 9, name: "Line Producer", icon: <User className="w-4 h-4" /> },
-  //   { id: 10, name: "Sync Sound", icon: <Mic className="w-4 h-4" /> },
-  //   { id: 11, name: "Art Dept.", icon: <Palette className="w-4 h-4" /> },
-  //   { id: 12, name: "Costume Dept.", icon: <Shirt className="w-4 h-4" /> },
-  //   { id: 13, name: "Make-up", icon: <Sparkles className="w-4 h-4" /> },
-  //   { id: 14, name: "Choreographer", icon: <Music className="w-4 h-4" /> },
-  //   { id: 15, name: "Photographer", icon: <Camera className="w-4 h-4" /> },
-  //   { id: 16, name: "Camera Hire", icon: <Camera className="w-4 h-4" /> },
-  //   { id: 17, name: "Sound Equip.", icon: <Mic className="w-4 h-4" /> },
-  //   { id: 18, name: "Light & Grip", icon: <Lightbulb className="w-4 h-4" /> },
-  //   { id: 19, name: "Generator", icon: <Zap className="w-4 h-4" /> },
-  //   { id: 20, name: "Vehicles", icon: <Truck className="w-4 h-4" /> },
-  //   { id: 21, name: "Costume Hire", icon: <Shirt className="w-4 h-4" /> },
-  //   { id: 22, name: "Art/Props Hire", icon: <Palette className="w-4 h-4" /> },
-  //   { id: 23, name: "Transport", icon: <Truck className="w-4 h-4" /> },
-  //   { id: 24, name: "Location", icon: <MapPin className="w-4 h-4" /> },
-  //   { id: 25, name: "Travel/Stay", icon: <Plane className="w-4 h-4" /> },
-  //   {
-  //     id: 26,
-  //     name: "Production Office",
-  //     icon: <Building className="w-4 h-4" />,
-  //   },
-  //   { id: 27, name: "Post Production", icon: <Scissors className="w-4 h-4" /> },
-  // ];
 
   const locations = [
     { title: "Barabar Hills", dist: "Jehanabad", img: "/BarabarHills.jpeg" },
@@ -410,11 +379,10 @@ export default function AboutUs() {
         <div className="relative z-10 max-w-5xl mx-auto">
           <div className="py-10">
             <h1 className="text-2xl md:text-4xl font-extrabold mb-6 tracking-tight leading-tight">
-              Bihar: The Emerging Powerhouse of Indian Cinema
+              {t("aboutUs.hero_title")}
             </h1>
             <p className="text-md md:text-xl font-light text-yellow-100 max-w-4xl mx-auto">
-              A land of rich heritage, iconic legends, and untold stories
-              waiting to be captured.
+              {t("aboutUs.hero_subtitle")}
             </p>
           </div>
         </div>
@@ -424,11 +392,10 @@ export default function AboutUs() {
         {/* Legends Section */}
         <div className="text-center space-y-8 px-4 md:px-10 overflow-hidden">
           <h2 className="text-3xl md:text-4xl font-bold text-[#891737]">
-            Legends from Bihar
+            {t("aboutUs.legends_heading")}
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-            Bihar has been home to some of the most iconic personalities who
-            have shaped Indian film history.
+            {t("aboutUs.legends_desc")}
           </p>
 
           <div className="relative w-full py-6">
@@ -475,21 +442,13 @@ export default function AboutUs() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#a92b4e]/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
           <div className="relative z-10 text-center max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold text-gray-800 mb-8">
-              BSFDFC: Nurturing Bihar’s Cinematic Legacy
+              {t("aboutUs.bsfdfc_heading")}
             </h2>
             <p className="text-gray-600 leading-relaxed text-xl mb-6">
-              The Bihar State Film Development & Finance Corporation Ltd.
-              (BSFDFC) continues to strengthen this legacy by promoting film
-              culture and incentivizing regional cinema. Through landmark
-              initiatives such as the Bihar Film Conclave, the Corporation
-              provides a dynamic platform for national and international
-              filmmakers.
+              {t("aboutUs.bsfdfc_para1")}
             </p>
             <p className="text-gray-600 leading-relaxed text-xl">
-              By fostering a creative and supportive ecosystem, BSFDFC is
-              redefining Bihar’s cinematic identity — encouraging filmmakers to
-              discover the state’s untold narratives, while simultaneously
-              empowering local talent and technicians.
+              {t("aboutUs.bsfdfc_para2")}
             </p>
           </div>
         </div>
@@ -500,12 +459,10 @@ export default function AboutUs() {
           <div className="bg-white p-5 rounded-2xl shadow-md flex items-center gap-5 hover:scale-[1.01] transition-transform duration-300">
             <div className="text-left">
               <h3 className="text-xl font-semibold text-[#a92b4e] mb-2">
-                Our Vision
+                {t("aboutUs.vision_title")}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed max-w-md">
-                To transform Bihar into a prominent film destination, utilizing
-                the power of cinema for cultural preservation and public
-                awareness.
+                {t("aboutUs.vision_desc")}
               </p>
             </div>
           </div>
@@ -514,12 +471,10 @@ export default function AboutUs() {
           <div className="bg-white p-5 rounded-2xl shadow-md flex items-center gap-5 hover:scale-[1.01] transition-transform duration-300">
             <div className="text-left">
               <h3 className="text-xl font-semibold text-[#a92b4e] mb-2">
-                Our Mission
+                {t("aboutUs.mission_title")}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed max-w-md">
-                To foster excellence in cinema, promote the diversity of Indian
-                culture, and facilitate a hassle-free filmmaking experience in
-                Bihar.
+                {t("aboutUs.mission_desc")}
               </p>
             </div>
           </div>
@@ -528,7 +483,7 @@ export default function AboutUs() {
         {/* Objectives */}
         <div className="bg-white">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
-            Key Objectives
+            {t("aboutUs.objectives_heading")}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {objectives.map((obj, idx) => (
@@ -548,7 +503,7 @@ export default function AboutUs() {
         {/* Subsidy Structure */}
         <div>
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
-            Subsidy Structure & Incentives
+            {t("aboutUs.subsidy_heading")}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {subsidies.map((item, idx) => (
@@ -583,16 +538,14 @@ export default function AboutUs() {
                   </div>
                   <div>
                     <h2 className="text-lg md:text-xl font-semibold text-white">
-                      Implementation Success
+                      {t("aboutUs.success_heading")}
                     </h2>
                   </div>
                 </div>
               </div>
 
               <p className="mb-5 text-xs leading-relaxed text-gray-300">
-                Since the introduction of the Bihar Film Policy, several
-                national and international filmmakers have chosen Bihar for its
-                authentic landscapes.
+                {t("aboutUs.success_desc")}
               </p>
 
               <div className="space-y-3 text-sm text-gray-300 overflow-y-auto max-h-[250px] custom-scrollbar pr-2">
@@ -609,56 +562,15 @@ export default function AboutUs() {
             </div>
           </div>
 
-          {/* <div className="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-900 to-black border border-white/5">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(169,43,78,0.28),_transparent_60%)]" />
-            <div className="relative flex h-full flex-col p-7 md:p-8">
-              <div className="mb-6 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white border border-[#190108]">
-                    <Star className="h-5 w-5 text-[#190108]" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg md:text-xl font-semibold text-white">
-                      Eligible Expenses
-                    </h2>
-                  </div>
-                </div>
-              </div>
-
-              <p className="mb-5 text-xs leading-relaxed text-gray-300">
-                According to Bihar Film Promotion Policy–2024, the following
-                expense categories are considered eligible within the total
-                project cost.
-              </p>
-
-              <div className="space-y-3 text-sm text-gray-300 overflow-y-auto max-h-[250px] custom-scrollbar pr-2">
-                {eligibleExpenses.map((expense) => (
-                  <div
-                    key={expense.id}
-                    className="group flex items-center gap-3 rounded-2xl border border-white/5 bg-white/0 px-3 py-2.5 transition-all duration-200 hover:border-[#a92b4e]/40 hover:bg-white/5"
-                  >
-                    <span className="flex items-center justify-center p-1.5 rounded-full bg-[#a92b4e]/20 text-[#a92b4e] group-hover:bg-[#a92b4e] group-hover:text-white transition-colors duration-200">
-                      {expense.icon}
-                    </span>
-                    <p className="leading-snug">{expense.name}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div> */}
-
           {/* Top-right card */}
           <div className="md:col-span-2 rounded-3xl border border-[#a92b4e]/25 bg-[#ffff]/5 p-6 md:p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#a92b4e]/50 hover:bg-[#a92b4e]/10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-base md:text-lg font-semibold text-[#a92b4e]">
-                Regional Cinema Hub
+                {t("aboutUs.regional_heading")}
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-gray-700">
-              Bihar has become a hub for regional filmmaking, in most of the
-              languages of Bihar and the films showing culture, heritage,
-              traditions and beautiful tourist places are being shot across
-              various districts, involving local talent and dialects.
+              {t("aboutUs.regional_desc")}
             </p>
           </div>
 
@@ -666,14 +578,11 @@ export default function AboutUs() {
           <div className="md:col-span-2 rounded-3xl border border-gray-200 bg-gray-50 p-6 md:p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#a92b4e]/30 hover:bg-white">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-base md:text-lg font-semibold text-[#a92b4e]">
-                Documentary Films
+                {t("aboutUs.documentary_heading")}
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-gray-700">
-              Documentary productions highlighting the state’s art, culture, and
-              development narrative inspiring filmmakers to explore Bihar's
-              untold stories of its heritage, traditions and tourist places
-              through a realistic lens.
+              {t("aboutUs.documentary_desc")}
             </p>
           </div>
           {/* Bottom-right card */}

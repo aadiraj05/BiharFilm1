@@ -3,95 +3,86 @@ import React, { useState } from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-// Video list
+// Video list (urls only — titles/descriptions come from i18n)
 const videoList = [
   {
     high: "/vrvideos/VrvideoHQ.mp4",
     low: "/vrvideos/VrvideoHQ2.mp4",
-    title: "Glass Bridge, Rajgir",
-    description:
-      "Embark on a breathtaking virtual journey across the Glass Bridge of Rajgir, a marvel suspended between the hills. This architectural feat offers panoramic views of the lush valley and serene landscape below, giving the sensation of walking amidst the clouds. Perfect for thrill-seekers and nature lovers, the experience captures the tranquil grandeur of Rajgir’s natural beauty combined with the thrill of height and modern engineering.",
+    titleKey: "vr.title_1",
+    descKey: "vr.desc_1",
   },
   {
     high: "/vrvideos/VrvideoHQ2.mp4",
     low: "/vrvideos/VrvideoLQ2.mp4",
-    title: "Ghora Katora, Rajgir",
-    description:
-      "Immerse yourself in the peaceful aura of Ghora Katora, a natural horse-shaped lake nestled among the hills of Rajgir. Surrounded by lush forests and often graced by migratory birds, this sacred and scenic waterbody is a hidden gem of Bihar. The VR experience lets you witness the stillness of the lake, the chirping of birds, and the gentle whispers of the wind through surrounding trees—ideal for those seeking serenity in nature’s lap.",
+    titleKey: "vr.title_2",
+    descKey: "vr.desc_2",
   },
   {
     high: "/vrvideos/VrvideoHQ3.mp4",
     low: "/vrvideos/VrvideoLQ3.mp4",
-    title: "Jungle Safari Entry, Rajgir",
-    description:
-      "Begin your adventure through the gateway of Rajgir’s Jungle Safari, where the wilderness greets you with open arms. This VR experience captures the excitement of entering a dense forest reserve with curated animal zones, nature trails, and eco-friendly walkways. Feel the anticipation build as you cross into an area teeming with wildlife, blending education, conservation, and adventure into one memorable virtual journey.",
+    titleKey: "vr.title_3",
+    descKey: "vr.desc_3",
   },
   {
     high: "/vrvideos/VrvideoHQ4.mp4",
     low: "/vrvideos/VrvideoLQ4.mp4",
-    title: "Pawapuri, Nalanda",
-    description:
-      "Take a spiritual deep dive into the sacred town of Pawapuri in Nalanda, where Lord Mahavira, the 24th Jain Tirthankara, attained nirvana. In this VR experience, float virtually to the heart of Jal Mandir—a marble temple surrounded by a lotus-filled lake. Feel the holiness, heritage, and tranquility as you walk across the stone bridge leading to the temple, immersed in centuries-old devotion and peace.",
+    titleKey: "vr.title_4",
+    descKey: "vr.desc_4",
   },
   {
     high: "/vrvideos/VrvideoHQ5.mp4",
     low: "/vrvideos/VrvideoLQ5.mp4",
-    title: "Bapu Tower, Patna",
-    description:
-      "Relive Bihar’s revolutionary spirit through the towering structure of Bapu Tower in Patna, a tribute to Mahatma Gandhi’s influence on the freedom movement in Bihar. The VR experience walks you through the symbolic architecture, plaques, and scenic surroundings, letting you sense the historic weight and inspiring atmosphere. It’s more than a monument—it’s a reminder of struggle, unity, and vision.",
+    titleKey: "vr.title_5",
+    descKey: "vr.desc_5",
   },
   {
     high: "/vrvideos/VrvideoHQ6.mp4",
     low: "/vrvideos/VrvideoLQ6.mp4",
-    title: "Hiuen Tsang Memorial Hall, Nalanda",
-    description:
-      "Travel back in time to the ancient seat of learning through the Hiuen Tsang Memorial Hall in Nalanda. This VR journey narrates the story of the legendary Chinese traveler and scholar who spent years absorbing the teachings of Nalanda University. Walk through intricately carved corridors, ancient manuscripts, and statues that reflect Indo-Chinese cultural synergy. A tribute to knowledge and global exchange, this memorial is both artistic and intellectually enriching.",
-  }, {
+    titleKey: "vr.title_6",
+    descKey: "vr.desc_6",
+  },
+  {
     high: "/vrvideos/VrvideoHQ.mp4",
     low: "/vrvideos/VrvideoLQ.mp4",
-    title: "Glass Bridge, Rajgir",
-    description:
-      "Embark on a breathtaking virtual journey across the Glass Bridge of Rajgir, a marvel suspended between the hills. This architectural feat offers panoramic views of the lush valley and serene landscape below, giving the sensation of walking amidst the clouds. Perfect for thrill-seekers and nature lovers, the experience captures the tranquil grandeur of Rajgir’s natural beauty combined with the thrill of height and modern engineering.",
+    titleKey: "vr.title_1",
+    descKey: "vr.desc_1",
   },
   {
     high: "/vrvideos/VrvideoHQ2.mp4",
     low: "/vrvideos/VrvideoLQ2.mp4",
-    title: "Ghora Katora, Rajgir",
-    description:
-      "Immerse yourself in the peaceful aura of Ghora Katora, a natural horse-shaped lake nestled among the hills of Rajgir. Surrounded by lush forests and often graced by migratory birds, this sacred and scenic waterbody is a hidden gem of Bihar. The VR experience lets you witness the stillness of the lake, the chirping of birds, and the gentle whispers of the wind through surrounding trees—ideal for those seeking serenity in nature’s lap.",
+    titleKey: "vr.title_2",
+    descKey: "vr.desc_2",
   },
   {
     high: "/vrvideos/VrvideoHQ3.mp4",
     low: "/vrvideos/VrvideoLQ3.mp4",
-    title: "Jungle Safari Entry, Rajgir",
-    description:
-      "Begin your adventure through the gateway of Rajgir’s Jungle Safari, where the wilderness greets you with open arms. This VR experience captures the excitement of entering a dense forest reserve with curated animal zones, nature trails, and eco-friendly walkways. Feel the anticipation build as you cross into an area teeming with wildlife, blending education, conservation, and adventure into one memorable virtual journey.",
+    titleKey: "vr.title_3",
+    descKey: "vr.desc_3",
   },
   {
     high: "/vrvideos/VrvideoHQ4.mp4",
     low: "/vrvideos/VrvideoLQ4.mp4",
-    title: "Pawapuri, Nalanda",
-    description:
-      "Take a spiritual deep dive into the sacred town of Pawapuri in Nalanda, where Lord Mahavira, the 24th Jain Tirthankara, attained nirvana. In this VR experience, float virtually to the heart of Jal Mandir—a marble temple surrounded by a lotus-filled lake. Feel the holiness, heritage, and tranquility as you walk across the stone bridge leading to the temple, immersed in centuries-old devotion and peace.",
+    titleKey: "vr.title_4",
+    descKey: "vr.desc_4",
   },
   {
     high: "/vrvideos/VrvideoHQ5.mp4",
     low: "/vrvideos/VrvideoLQ5.mp4",
-    title: "Bapu Tower, Patna",
-    description:
-      "Relive Bihar’s revolutionary spirit through the towering structure of Bapu Tower in Patna, a tribute to Mahatma Gandhi’s influence on the freedom movement in Bihar. The VR experience walks you through the symbolic architecture, plaques, and scenic surroundings, letting you sense the historic weight and inspiring atmosphere. It’s more than a monument—it’s a reminder of struggle, unity, and vision.",
+    titleKey: "vr.title_5",
+    descKey: "vr.desc_5",
   },
   {
     high: "/vrvideos/VrvideoHQ6.mp4",
     low: "/vrvideos/VrvideoLQ6.mp4",
-    title: "Hiuen Tsang Memorial Hall, Nalanda",
-    description:
-      "Travel back in time to the ancient seat of learning through the Hiuen Tsang Memorial Hall in Nalanda. This VR journey narrates the story of the legendary Chinese traveler and scholar who spent years absorbing the teachings of Nalanda University. Walk through intricately carved corridors, ancient manuscripts, and statues that reflect Indo-Chinese cultural synergy. A tribute to knowledge and global exchange, this memorial is both artistic and intellectually enriching.",
+    titleKey: "vr.title_6",
+    descKey: "vr.desc_6",
   },
 ];
 
 function Vr() {
+  const { t } = useTranslation();
   const [mainVideo, setMainVideo] = useState(videoList[0].high);
   const [mainIndex, setMainIndex] = useState(0);
   const navigate = useNavigate();
@@ -102,12 +93,15 @@ function Vr() {
   };
 
   return (
-    <div id="Vr" className="bg-[#190108] pt-16 px-4 md:px-10 pb-24 relative overflow-hidden">
+    <div
+      id="Vr"
+      className="bg-[#190108] pt-16 px-4 md:px-10 pb-24 relative overflow-hidden"
+    >
       {/* Background Gradient Orb for depth */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#4f0419] rounded-full blur-[150px] opacity-20 pointer-events-none" />
 
       <h2 className="text-white text-2xl sm:text-3xl md:text-6xl bebas-neue-regular pl-4 md:pl-24 relative z-10 mb-8 drop-shadow-xl">
-        Bihar Film Location in VR
+        {t("vr.heading")}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-10 mb-12 relative z-10">
@@ -122,8 +116,11 @@ function Vr() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             <p className="text-gray-300 text-base leading-relaxed text-justify relative z-10">
-              <strong className="text-white block mb-3 text-xl tracking-wide">Experience {videoList[mainIndex].title} in Virtual Reality (VR):</strong>
-              {videoList[mainIndex].description}
+              <strong className="text-white block mb-3 text-xl tracking-wide">
+                {t("vr.experience_prefix")} {t(videoList[mainIndex].titleKey)}{" "}
+                {t("vr.experience_suffix")}
+              </strong>
+              {t(videoList[mainIndex].descKey)}
             </p>
 
             <button
@@ -131,7 +128,9 @@ function Vr() {
               onClick={() => navigate("/vrpage")}
               className="group mt-8 px-8 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-[#4f0419] hover:border-[#4f0419] transition-all duration-300 flex items-center gap-3 backdrop-blur-md shadow-lg hover:shadow-[#4f0419]/30"
             >
-              <span className="text-white font-medium tracking-wide">Learn more</span>
+              <span className="text-white font-medium tracking-wide">
+                {t("vr.learn_more")}
+              </span>
               <IoIosArrowRoundForward className="text-white text-2xl transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </div>
@@ -161,27 +160,30 @@ function Vr() {
       {/* Scrolling Thumbnails */}
       <div className="overflow-hidden group mt-12 px-4 relative z-10">
         <div className="flex w-max space-x-6 animate-scrollVideos group-hover:pause-scroll py-4 pl-4">
-          {videoList.map((vid, index) =>
-            index !== mainIndex && (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="cursor-pointer rounded-xl overflow-hidden shadow-lg border border-white/10 w-64 h-40 relative flex-shrink-0"
-                onClick={() => handleVideoClick(vid, index)}
-              >
-                <video
-                  className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
-                  src={vid.low}
-                  muted
-                  loop
-                  autoPlay
-                />
-                <div className="absolute inset-0 bg-black/20 hover:bg-transparent transition-colors duration-300" />
-                <div className="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black/80 to-transparent">
-                  <p className="text-white text-xs font-medium truncate">{vid.title}</p>
-                </div>
-              </motion.div>
-            )
+          {videoList.map(
+            (vid, index) =>
+              index !== mainIndex && (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="cursor-pointer rounded-xl overflow-hidden shadow-lg border border-white/10 w-64 h-40 relative flex-shrink-0"
+                  onClick={() => handleVideoClick(vid, index)}
+                >
+                  <video
+                    className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
+                    src={vid.low}
+                    muted
+                    loop
+                    autoPlay
+                  />
+                  <div className="absolute inset-0 bg-black/20 hover:bg-transparent transition-colors duration-300" />
+                  <div className="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black/80 to-transparent">
+                    <p className="text-white text-xs font-medium truncate">
+                      {t(vid.titleKey)}
+                    </p>
+                  </div>
+                </motion.div>
+              ),
           )}
         </div>
       </div>
@@ -190,12 +192,3 @@ function Vr() {
 }
 
 export default Vr;
-
-
-
-
-
-
-
-
-

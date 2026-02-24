@@ -1,34 +1,37 @@
-import React from 'react';
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 const InvestmentSubsidyTable = () => {
+  const { t } = useTranslation();
+
   const subsidyData = [
     {
       slNo: 1,
-      purpose: 'For setting up infrastructure like Film Set / Film City / Theme Park / Theme Village, Film Studio for VFX, Animation, Sound Recording / Dubbing, Color Correction.',
-      minInvestment: '200',
-      subsidyPercent: '25%',
-      maxSubsidy: '150',
+      purpose: t("filmPolicy.ist_purpose1"),
+      minInvestment: "200",
+      subsidyPercent: "25%",
+      maxSubsidy: "150",
     },
     {
       slNo: 2,
-      purpose: 'For Film Lighting, High Resolution Camera, Sound System, Dubbing etc. for film production and processing.',
-      minInvestment: '100',
-      subsidyPercent: '25%',
-      maxSubsidy: '100',
+      purpose: t("filmPolicy.ist_purpose2"),
+      minInvestment: "100",
+      subsidyPercent: "25%",
+      maxSubsidy: "100",
     },
     {
       slNo: 3,
-      purpose: 'For the establishment of a fully equipped studio.',
-      minInvestment: '50',
-      subsidyPercent: '25%',
-      maxSubsidy: '25',
+      purpose: t("filmPolicy.ist_purpose3"),
+      minInvestment: "50",
+      subsidyPercent: "25%",
+      maxSubsidy: "25",
     },
     {
       slNo: 4,
-      purpose: 'For the establishment of Animation and Computer Graphics Center and other technical facilities etc.',
-      minInvestment: '50',
-      subsidyPercent: '25%',
-      maxSubsidy: '25',
+      purpose: t("filmPolicy.ist_purpose4"),
+      minInvestment: "50",
+      subsidyPercent: "25%",
+      maxSubsidy: "25",
     },
   ];
 
@@ -37,11 +40,13 @@ const InvestmentSubsidyTable = () => {
       <table className="min-w-full text-sm text-left border border-gray-300">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-3 border">Sl. No.</th>
-            <th className="p-3 border">Grant Scheme</th>
-            <th className="p-3 border">Min Project Cost (in Lakhs)</th>
-            <th className="p-3 border">Max Incentive (%)</th>
-            <th className="p-3 border">Max Grant Limit (in Lakhs)</th>
+            <th className="p-3 border">{t("filmPolicy.ist_col_slno")}</th>
+            <th className="p-3 border">{t("filmPolicy.ist_col_scheme")}</th>
+            <th className="p-3 border">{t("filmPolicy.ist_col_min_cost")}</th>
+            <th className="p-3 border">
+              {t("filmPolicy.ist_col_max_incentive")}
+            </th>
+            <th className="p-3 border">{t("filmPolicy.ist_col_max_grant")}</th>
           </tr>
         </thead>
         <tbody>

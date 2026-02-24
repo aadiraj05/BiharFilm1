@@ -3,10 +3,11 @@ import { CiMail } from "react-icons/ci";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { FaLocationArrow } from "react-icons/fa6";
 import Logo1 from "/src/assets/Logo1.png";
-// your cinema doodles image
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -56,27 +57,33 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row lg:justify-between lg:space-x-12 space-y-8 lg:space-y-0">
             {/* About */}
             <div className="lg:w-1/3">
-              <h3 className="text-2xl font-bold mb-4">About BSFDFC</h3>
+              <h3 className="text-2xl font-bold mb-4">
+                {t("contact.about_heading")}
+              </h3>
               <p className="text-sm sm:text-base leading-relaxed">
-                The Bihar State Film Development & Finance Corporation Ltd.
-                (BSFDFC) promotes film culture and incentivizes regional cinema.
-                Through landmark initiatives, it provides a dynamic platform for
-                national and international filmmakers, redefining Bihar’s
-                cinematic identity.
+                {t("contact.about_text")}
               </p>
             </div>
 
             {/* Links */}
             <div className="lg:w-1/3 grid grid-cols-2 gap-4">
               <div>
-                <h3 className="text-xl font-bold mb-2">Quick Links</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  {t("contact.quick_links")}
+                </h3>
                 <ul className="space-y-2 text-sm">
                   {[
-                    { label: "Home", path: "/" },
-                    { label: "About Us", path: "/about-us" },
-                    { label: "VR Experience", path: "/vrpage" },
-                    { label: "Film Policy", path: "/document/film-policy" },
-                    { label: "Shooting Location", path: "/ShootingLocation" },
+                    { label: t("contact.link_home"), path: "/" },
+                    { label: t("contact.link_about"), path: "/about-us" },
+                    { label: t("contact.link_vr"), path: "/vrpage" },
+                    {
+                      label: t("contact.link_film_policy"),
+                      path: "/document/film-policy",
+                    },
+                    {
+                      label: t("contact.link_shooting_location"),
+                      path: "/ShootingLocation",
+                    },
                   ].map((link, index) => (
                     <li key={index}>
                       <button
@@ -90,17 +97,22 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-2">Documents</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  {t("contact.documents")}
+                </h3>
                 <ul className="space-y-2 text-sm">
                   {[
-                    { label: "Notification", path: "/notification" },
-                    { label: "Tender", path: "/tender" },
                     {
-                      label: "Bihar Bioscope",
+                      label: t("contact.link_notification"),
+                      path: "/notification",
+                    },
+                    { label: t("contact.link_tender"), path: "/tender" },
+                    {
+                      label: t("contact.link_bihar_bioscope"),
                       path: "/document/bihar-baiscop",
                     },
                     {
-                      label: "Promotion Policy",
+                      label: t("contact.link_promotion_policy"),
                       path: "/document/promotion-policy",
                     },
                     // { label: "Privacy Policy", path: "/privacy-policy" }
@@ -120,7 +132,9 @@ const Footer = () => {
 
             {/* Contact */}
             <div className="lg:w-1/3">
-              <h3 className="text-xl font-bold mb-2">Contact</h3>
+              <h3 className="text-xl font-bold mb-2">
+                {t("contact.contact_heading")}
+              </h3>
               <ul className="space-y-2 text-sm">
                 <li>
                   <a className="">
@@ -145,7 +159,7 @@ const Footer = () => {
                     className="flex items-center gap-2 text-red-300 hover:text-red-100 transition-colors"
                   >
                     <FaLocationArrow />
-                    <span>Get Location</span>
+                    <span>{t("contact.get_location")}</span>
                   </a>
                 </li>
               </ul>
@@ -167,41 +181,68 @@ const Footer = () => {
               />
             </div>
 
-            <div className="w-full md:w-2/3">
-              <h4 className="text-lg font-semibold mb-3">Follow us</h4>
-              <div className="flex space-x-4 text-2xl">
-                <a
-                  href="https://www.facebook.com/BSFDFCL/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-blue-500 transition"
+            <div className="w-full md:w-2/3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h4 className="text-lg font-semibold mb-3">
+                  {t("contact.follow_us")}
+                </h4>
+                <div className="flex space-x-4 text-2xl">
+                  <a
+                    href="https://www.facebook.com/BSFDFCL/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-blue-500 transition"
+                  >
+                    <FaFacebook />
+                  </a>
+                  <a
+                    href="https://www.instagram.com/artcultureyouth?igsh=YWI1aG9rNGOyaTZy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-pink-400 transition"
+                  >
+                    <FaInstagram />
+                  </a>
+                  <a
+                    href="https://x.com/bfilmnigam"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-blue-400 transition"
+                  >
+                    <FaTwitter />
+                  </a>
+                  <a
+                    href="https://www.youtube.com/@ArtCultureYouth"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-red-400 transition"
+                  >
+                    <FaYoutube />
+                  </a>
+                </div>
+              </div>
+
+              {/* Language Toggle */}
+              <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
+                <button
+                  onClick={() => {
+                    i18n.changeLanguage("en");
+                    localStorage.setItem("lang", "en");
+                  }}
+                  className={`px-1.5 py-0.5 rounded transition-all ${i18n.language === "en" ? "text-white opacity-100" : "opacity-50 hover:opacity-80"}`}
                 >
-                  <FaFacebook />
-                </a>
-                <a
-                  href="https://www.instagram.com/artcultureyouth?igsh=YWI1aG9rNGOyaTZy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-pink-400 transition"
+                  EN
+                </button>
+                <span className="opacity-30">|</span>
+                <button
+                  onClick={() => {
+                    i18n.changeLanguage("hi");
+                    localStorage.setItem("lang", "hi");
+                  }}
+                  className={`px-1.5 py-0.5 rounded transition-all ${i18n.language === "hi" ? "text-white opacity-100" : "opacity-50 hover:opacity-80"}`}
                 >
-                  <FaInstagram />
-                </a>
-                <a
-                  href="https://x.com/bfilmnigam"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-blue-400 transition"
-                >
-                  <FaTwitter />
-                </a>
-                <a
-                  href="https://www.youtube.com/@ArtCultureYouth"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-red-400 transition"
-                >
-                  <FaYoutube />
-                </a>
+                  हिंदी
+                </button>
               </div>
             </div>
           </div>

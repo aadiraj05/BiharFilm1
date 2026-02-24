@@ -1,28 +1,30 @@
-import React from 'react';
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 const FilmSubsidy = () => {
+  const { t } = useTranslation();
+
   const data = [
     {
       slNo: 1,
-      subsidy: 'Up to 50 Lakhs or 25% of Total Production Cost (COP), whichever is lower',
-      criteria: 'Minimum 45 days shooting inside the State',
+      subsidy: t("filmPolicy.fs_sub1"),
+      criteria: t("filmPolicy.fs_cri1"),
     },
     {
       slNo: 2,
-      subsidy: 'Up to 1 Crore or 25% of Total Production Cost (COP), whichever is lower',
-      criteria: 'Minimum 90 days shooting inside the State',
+      subsidy: t("filmPolicy.fs_sub2"),
+      criteria: t("filmPolicy.fs_cri2"),
     },
   ];
 
   return (
     <div className="p-4 overflow-x-auto">
-     
       <table className="min-w-full text-sm text-left border border-gray-300 mb-4">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-3 border">Sl. No.</th>
-            <th className="p-3 border">Subsidy (Financial Assistance)</th>
-            <th className="p-3 border">Criteria</th>
+            <th className="p-3 border">{t("filmPolicy.fs_col_slno")}</th>
+            <th className="p-3 border">{t("filmPolicy.fs_col_subsidy")}</th>
+            <th className="p-3 border">{t("filmPolicy.fs_col_criteria")}</th>
           </tr>
         </thead>
         <tbody>
