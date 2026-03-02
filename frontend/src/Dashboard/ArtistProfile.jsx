@@ -47,13 +47,22 @@ const normalizeList = (list) =>
     typeof item === "object" ? item.name || item.link || item.url || "" : item,
   ) || [];
 
-const normalizeArtistData = (data) => ({
-  ...data,
-  professions: normalizeList(data.professions),
-  specializations: normalizeList(data.specializations),
-  videoLinks: normalizeList(data.videos || data.videoLinks),
-  galleryImages: normalizeList(data.images || data.galleryImages),
-});
+const normalizeArtistData = (data) => {
+  // The backend returns 'videos' and 'images', but the frontend uses
+  // 'videoLinks' and 'galleryImages'. We normalize to the frontend keys
+  // and remove the backend keys to prevent stale data in future merges.
+  const normalized = {
+    ...data,
+    videoLinks: normalizeList(data.videos || data.videoLinks),
+    galleryImages: normalizeList(data.images || data.galleryImages),
+    professions: normalizeList(data.professions),
+    specializations: normalizeList(data.specializations),
+  };
+  // Remove backend-only keys so future merges don't carry stale data
+  delete normalized.videos;
+  delete normalized.images;
+  return normalized;
+};
 
 // ----------------------------------------------------------------------
 // HELPER: Age Calculation
@@ -113,10 +122,21 @@ const ArtistProfile = () => {
 
   const handleUpdate = (updatedArtist) => {
     console.log("handleUpdate called with:", updatedArtist);
-    // Ensure we don't lose existing data by merging properly
+    // Build merged object: start with current state, overlay API response.
+    // Before merging, delete stale frontend-only keys from the OLD state
+    // so that fresh backend keys (videos/images) take precedence.
+    const oldState = { ...artist };
+    // If API response has 'videos', remove old 'videoLinks' from state
+    if (updatedArtist.videos !== undefined) {
+      delete oldState.videoLinks;
+    }
+    // If API response has 'images', remove old 'galleryImages' from state
+    if (updatedArtist.images !== undefined) {
+      delete oldState.galleryImages;
+    }
     const merged = {
-      ...artist, // Keep existing data
-      ...updatedArtist, // Merge updates
+      ...oldState,
+      ...updatedArtist,
     };
     setArtist(normalizeArtistData(merged));
     showAlert("success", "Success", "Profile updated successfully!");

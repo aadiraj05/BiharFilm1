@@ -182,10 +182,9 @@ export const updateProfile = async (currentArtist, updates) => {
 
   data.append("professions", JSON.stringify(cleanProfessions));
   data.append("specializations", JSON.stringify(cleanSpecializations));
+  // Backend reads req.body.videoLinks (line 268 of artistController.js)
   data.append("videoLinks", JSON.stringify(cleanVideoLinks));
-
-  // Gallery Logic: "galleryImages" field now handles BOTH the whitelist of URLs (req.body)
-  // and new files (req.files).
+  // Backend reads req.body.galleryImages (line 304 of artistController.js)
   data.append("galleryImages", JSON.stringify(cleanGallery));
 
   return await api.put("/api/artist/updateMyProfile", data, {
@@ -225,20 +224,24 @@ export const VideoLinksCard = ({ artist, onUpdate, readOnly = false }) => {
       return;
     }
 
-    if (!currentLink) return;
+    const trimmed = currentLink.trim();
+    if (!trimmed) return;
 
     // Validate URL
     try {
-      new URL(currentLink);
+      new URL(trimmed);
     } catch (_) {
       alert("Please enter a valid URL (must start with http:// or https://)");
       return;
     }
 
-    if (!links.includes(currentLink)) {
-      setLinks([...links, currentLink]);
-      setCurrentLink("");
+    if (links.includes(trimmed)) {
+      alert("This video link has already been added.");
+      return;
     }
+
+    setLinks((prev) => [...prev, trimmed]);
+    setCurrentLink("");
   };
 
   const removeLink = (idx) => {
@@ -856,12 +859,33 @@ export const GalleryCard = ({ artist, onUpdate, readOnly = false }) => {
       alert("Max 5 images allowed.");
       return;
     }
-    const validFiles = files.filter((f) => validateFile(f).isValid);
-    setNewFiles([...newFiles, ...validFiles]);
-    setPreviews([
-      ...previews,
-      ...validFiles.map((f) => URL.createObjectURL(f)),
-    ]);
+
+    const rejected = [];
+    const validFiles = files.filter((f) => {
+      // Allow up to 10MB for gallery images (phone photos are commonly 5-8MB)
+      const result = validateFile(
+        f,
+        10,
+        ["image/jpeg", "image/png", "image/jpg"],
+        ["jpg", "jpeg", "png"],
+      );
+      if (!result.isValid) {
+        rejected.push(`${f.name}: ${result.error}`);
+      }
+      return result.isValid;
+    });
+
+    if (rejected.length > 0) {
+      alert("Some files were rejected:\n" + rejected.join("\n"));
+    }
+
+    if (validFiles.length > 0) {
+      setNewFiles([...newFiles, ...validFiles]);
+      setPreviews([
+        ...previews,
+        ...validFiles.map((f) => URL.createObjectURL(f)),
+      ]);
+    }
   };
 
   const removeExisting = (i) =>
@@ -882,12 +906,14 @@ export const GalleryCard = ({ artist, onUpdate, readOnly = false }) => {
         .filter(Boolean);
 
       // Backend expects "galleryImages" to contain the whitelist of URLs to keep
-      // If empty, send "[]"
       data.append("galleryImages", JSON.stringify(cleanExisting));
-      // Append new files with field name "galleryFiles" (different from the JSON)
+      // Append new files with field name "galleryFiles"
       newFiles.forEach((f) => data.append("galleryFiles", f));
 
-      // Append other fields to ensure profile consistency, though ideally backend handles partial updates
+      console.log("Gallery DEBUG: existing URLs:", cleanExisting);
+      console.log("Gallery DEBUG: new files count:", newFiles.length);
+
+      // Append other fields to ensure profile consistency
       [
         "fullName",
         "dob",
@@ -903,8 +929,8 @@ export const GalleryCard = ({ artist, onUpdate, readOnly = false }) => {
         "twitter",
         "linkedIn",
         "showPhonePublic",
+        "showAddressPublic",
       ].forEach((k) => {
-        // Fix: Use !== undefined/null to allow sending empty strings (deletions)
         if (artist[k] !== undefined && artist[k] !== null) {
           data.append(k, artist[k]);
         }
@@ -925,28 +951,42 @@ export const GalleryCard = ({ artist, onUpdate, readOnly = false }) => {
 
       data.append("professions", JSON.stringify(cleanProfessions));
       data.append("specializations", JSON.stringify(cleanSpecializations));
+      // Backend reads req.body.videoLinks
       data.append("videoLinks", JSON.stringify(cleanVideoLinks));
+
+      console.log("Gallery DEBUG: All FormData entries:");
+      for (const [key, value] of data.entries()) {
+        console.log(
+          `  ${key}:`,
+          typeof value === "string"
+            ? value
+            : `[File: ${value.name}, ${value.size} bytes]`,
+        );
+      }
 
       const res = await api.put("/api/artist/updateMyProfile", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+      console.log("Gallery DEBUG: API response images:", res.data.data?.images);
+
       // Robust update handling
       if (res.data && res.data.data) {
-        alert("Gallery updated successfully!"); // ✅ Added success feedback
+        alert("Gallery updated successfully!");
         onUpdate(res.data.data);
-        // ✅ Clean up local state
         setNewFiles([]);
         setPreviews([]);
       } else {
-        // Fallback if backend doesn't return data
         alert("Gallery updated! Refreshing...");
         window.location.reload();
       }
       setIsEditing(false);
     } catch (e) {
-      console.error(e);
-      alert("Failed to update gallery");
+      console.error("Gallery save error:", e);
+      console.error("Gallery save error response:", e.response?.data);
+      alert(
+        "Failed to update gallery: " + (e.response?.data?.message || e.message),
+      );
     } finally {
       setLoading(false);
     }
@@ -1524,7 +1564,8 @@ const normalizeStringListDeep = (value, maxDepth = 6) => {
     return v
       .flatMap((item) => {
         if (item == null) return [];
-        if (typeof item === "object") return [item.name || item.label || item.value || ""];
+        if (typeof item === "object")
+          return [item.name || item.label || item.value || ""];
         if (typeof item === "string") return [item];
         return [];
       })
@@ -1533,7 +1574,8 @@ const normalizeStringListDeep = (value, maxDepth = 6) => {
   }
 
   // single object/string
-  if (typeof v === "object" && v) return [v.name || v.label || v.value].filter(Boolean);
+  if (typeof v === "object" && v)
+    return [v.name || v.label || v.value].filter(Boolean);
   if (typeof v === "string" && v.trim()) return [v.trim()];
   return [];
 };
@@ -1558,13 +1600,12 @@ export const EditProfileModal = ({
     address: base.address || "",
     showPhonePublic:
       base.showPhonePublic === true || base.showPhonePublic === "true",
-    showAgePublic:
-      base.showAgePublic === true || base.showAgePublic === "true",
+    showAgePublic: base.showAgePublic === true || base.showAgePublic === "true",
     showAddressPublic:
       base.showAddressPublic === true || base.showAddressPublic === "true",
     image: null,
     professions: normalizeStringListDeep(base.professions),
-specializations: normalizeStringListDeep(base.specializations),
+    specializations: normalizeStringListDeep(base.specializations),
   });
 
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -1623,12 +1664,12 @@ specializations: normalizeStringListDeep(base.specializations),
   }, [formData.professions]);
 
   const availableSpecializations = React.useMemo(() => {
-  const profs = normalizeStringListDeep(formData.professions);
-  if (!profs.length) return PREDEFINED_SPECIALIZATIONS;
+    const profs = normalizeStringListDeep(formData.professions);
+    if (!profs.length) return PREDEFINED_SPECIALIZATIONS;
 
-  const relevant = profs.flatMap((p) => ROLE_SPECIALIZATIONS[p] || []);
-  return relevant.length > 0 ? [...new Set(relevant), "Others"] : ["Others"];
-}, [formData.professions]);
+    const relevant = profs.flatMap((p) => ROLE_SPECIALIZATIONS[p] || []);
+    return relevant.length > 0 ? [...new Set(relevant), "Others"] : ["Others"];
+  }, [formData.professions]);
 
   const addTag = (field, val, list, setter) => {
     if (val && !list.includes(val))
@@ -1687,65 +1728,65 @@ specializations: normalizeStringListDeep(base.specializations),
     setTempImageSrc(null);
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    const data = new FormData();
+    try {
+      const data = new FormData();
 
-    // append scalar fields only
-    const scalarKeys = [
-      "fullName",
-      "email",
-      "phoneNumber",
-      "gender",
-      "dob",
-      "address",
-      "description",
-      "showPhonePublic",
-      "showAgePublic",
-      "showAddressPublic",
-    ];
+      // append scalar fields only
+      const scalarKeys = [
+        "fullName",
+        "email",
+        "phoneNumber",
+        "gender",
+        "dob",
+        "address",
+        "description",
+        "showPhonePublic",
+        "showAgePublic",
+        "showAddressPublic",
+      ];
 
-    scalarKeys.forEach((k) => {
-      const val = formData[k];
-      if (val !== undefined && val !== null && val !== "") {
-        data.append(k, val);
+      scalarKeys.forEach((k) => {
+        const val = formData[k];
+        if (val !== undefined && val !== null && val !== "") {
+          data.append(k, val);
+        }
+      });
+
+      // image
+      if (formData.image instanceof Blob || formData.image instanceof File) {
+        data.append("image", formData.image);
       }
-    });
 
-    // image
-    if (formData.image instanceof Blob || formData.image instanceof File) {
-      data.append("image", formData.image);
+      // arrays - normalize + stringify ONCE
+      const profs = normalizeStringListDeep(formData.professions);
+      const specs = normalizeStringListDeep(formData.specializations);
+
+      data.append("professions", JSON.stringify(profs));
+      data.append("specializations", JSON.stringify(specs));
+
+      // IMPORTANT: remove the block that appends base.professions again
+
+      const res = isCreating
+        ? await api.post("/api/artist/addArtist", data, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+        : await api.put("/api/artist/updateMyProfile", data, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+
+      onUpdate(res.data.data);
+      onClose();
+    } catch (error) {
+      console.error("Save error", error);
+      alert(error.response?.data?.message || "Failed to save profile");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // arrays - normalize + stringify ONCE
-    const profs = normalizeStringListDeep(formData.professions);
-    const specs = normalizeStringListDeep(formData.specializations);
-
-    data.append("professions", JSON.stringify(profs));
-    data.append("specializations", JSON.stringify(specs));
-
-    // IMPORTANT: remove the block that appends base.professions again
-
-    const res = isCreating
-      ? await api.post("/api/artist/addArtist", data, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-      : await api.put("/api/artist/updateMyProfile", data, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-    onUpdate(res.data.data);
-    onClose();
-  } catch (error) {
-    console.error("Save error", error);
-    alert(error.response?.data?.message || "Failed to save profile");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-center items-center p-4 animate-in fade-in duration-200">
